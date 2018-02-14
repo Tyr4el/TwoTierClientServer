@@ -11,7 +11,7 @@ import java.util.Vector;
 
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 
-public class App {
+public class App extends JFrame {
     private JPanel pnlMain;
     private JComboBox dropDriver;
     private JComboBox dropDatabase;
@@ -142,8 +142,6 @@ public class App {
                             WARNING_MESSAGE);
                     sql.printStackTrace();
                 }
-
-
             }
         });
     }
