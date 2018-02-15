@@ -21,14 +21,14 @@
     <rowspec value="center:4px:noGrow"/>
     <colspec value="fill:97px:noGrow"/>
     <colspec value="fill:283px:noGrow"/>
-    <colspec value="fill:max(d;4px):noGrow"/>
+    <colspec value="fill:133px:noGrow"/>
     <colspec value="left:4dlu:noGrow"/>
     <colspec value="fill:max(d;4px):noGrow"/>
     <colspec value="left:4dlu:noGrow"/>
     <colspec value="fill:344px:noGrow"/>
     <colspec value="left:4dlu:noGrow"/>
     <constraints>
-      <xy x="20" y="20" width="945" height="755"/>
+      <xy x="20" y="20" width="986" height="755"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -161,6 +161,7 @@
           <font size="12" style="1"/>
           <foreground color="-12236470"/>
           <lineWrap value="false"/>
+          <text value="Not connected"/>
         </properties>
       </component>
       <component id="eb564" class="javax.swing.JButton" binding="btnConnect">
@@ -224,6 +225,15 @@
           </component>
         </children>
       </scrollpane>
+      <component id="e82ca" class="javax.swing.JButton" binding="disconnectButton" default-binding="true">
+        <constraints>
+          <grid row="16" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms top="0" left="3" bottom="0" right="0"/>
+        </constraints>
+        <properties>
+          <text value="Disconnect"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
