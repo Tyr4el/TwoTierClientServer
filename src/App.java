@@ -139,8 +139,6 @@ public class App extends JFrame {
 
                 // Set the query to the text in the text area
                 String query = txtASQLStatement.getText();
-                String[] querySplit = query.split(" ", 2);
-                String firstWord = querySplit[0];
 
                 try {
                     // Create the statement
@@ -150,7 +148,7 @@ public class App extends JFrame {
                     JTable table = new JTable(buildTableModel(rs));
                     JOptionPane.showMessageDialog(null, new JScrollPane(table));
                 } catch (SQLException sql) {
-                    JOptionPane.showMessageDialog(null, sql.getLocalizedMessage(), "Error",
+                    JOptionPane.showMessageDialog(null, sql.getMessage(), "Error",
                             WARNING_MESSAGE);
                     sql.printStackTrace();
                 }
