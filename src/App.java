@@ -35,39 +35,21 @@ public class App extends JFrame {
     private JButton disconnectButton;
 
     // Get username string
-    String username = txtUsername.getText();
+    private String username = txtUsername.getText();
     // Get password string
-    String password = txtPassword.getText();
+    private String password = txtPassword.getText();
     // Get database string
-    String database = (String)dropDatabase.getSelectedItem();
+    private String database = (String)dropDatabase.getSelectedItem();
 
-    public Connection connection;
-    public ResultSet rs;
-    public Statement statement;
-    public boolean connectedToDatabase = false;
+    private Connection connection;
+    private ResultSet rs;
+    private Statement statement;
+    private boolean connectedToDatabase = false;
 
-    public static DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
-        ResultSetMetaData metaData = rs.getMetaData();
+    private ResultSetTableModel tableModel;
 
-        // names of columns
-        Vector<String> columnNames = new Vector<>();
-        int columnCount = metaData.getColumnCount();
-        for (int column = 1; column <= columnCount; column++) {
-            columnNames.add(metaData.getColumnName(column));
-        }
+    private MysqlDataSource dataSource = new MysqlDataSource();
 
-        // data of the table
-        Vector<Vector<Object>> data = new Vector<>();
-        while (rs.next()) {
-            Vector<Object> vector = new Vector<Object>();
-            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
-                vector.add(rs.getObject(columnIndex));
-            }
-            data.add(vector);
-        }
-
-        return new DefaultTableModel(data, columnNames);
-    }
 
     public App() {
         // Create Listener for Clear SQL button
@@ -100,7 +82,6 @@ public class App extends JFrame {
                 database = (String)dropDatabase.getSelectedItem();
 
                 // Set username, password, database
-                MysqlDataSource dataSource = new MysqlDataSource();
                 dataSource.setUser(username);
                 dataSource.setPassword(password);
                 dataSource.setURL(database);
@@ -139,18 +120,12 @@ public class App extends JFrame {
 
                 // Set the query to the text in the text area
                 String query = txtASQLStatement.getText();
-
                 try {
-                    // Create the statement
-                    statement = connection.createStatement();
-                    rs = statement.executeQuery(query);
-                    // Create table to be displayed inside the message dialog
-                    JTable table = new JTable(buildTableModel(rs));
-                    JOptionPane.showMessageDialog(null, new JScrollPane(table));
-                } catch (SQLException sql) {
-                    JOptionPane.showMessageDialog(null, sql.getMessage(), "Error",
-                            WARNING_MESSAGE);
-                    sql.printStackTrace();
+                    tableModel = new ResultSetTableModel(dataSource, connection, query);
+
+                    tableModel.setQuery(query);
+                } catch (SQLException | ClassNotFoundException exception) {
+                    exception.printStackTrace();
                 }
             }
         });
@@ -181,7 +156,7 @@ public class App extends JFrame {
         });
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+    public static void main(String[] args) {
         JFrame frame = new JFrame("SQL Client GUI");
         frame.setContentPane(new App().pnlMain);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

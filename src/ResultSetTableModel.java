@@ -13,10 +13,7 @@ public class ResultSetTableModel extends AbstractTableModel {
 
     private boolean connectedToDatabase = false;
 
-    public ResultSetTableModel(Connection connection, String query) throws SQLException, ClassNotFoundException {
-        Properties properties = new Properties();
-        FileInputStream fileIn = null;
-        MysqlDataSource dataSource = null;
+    public ResultSetTableModel(MysqlDataSource dataSource, Connection connection, String query) throws SQLException, ClassNotFoundException {
 
         try {
             connection = dataSource.getConnection();
@@ -103,11 +100,15 @@ public class ResultSetTableModel extends AbstractTableModel {
             throw new IllegalStateException("Not connected to database.  Please try again");
         }
 
-        resultSet = statement.executeQuery(query);
-        metaData = resultSet.getMetaData();
+        if (query.equals("")) {
+            throw new IllegalStateException("SQL statement is empty.  Please enter a statement");
+        } else {
+            resultSet = statement.executeQuery(query);
+            metaData = resultSet.getMetaData();
 
-        resultSet.last();
-        numberOfRows = resultSet.getRow();
+            resultSet.last();
+            numberOfRows = resultSet.getRow();
+        }
 
         fireTableStructureChanged();
     }
