@@ -120,10 +120,16 @@ public class App extends JFrame {
 
                 // Set the query to the text in the text area
                 String query = txtASQLStatement.getText();
+                String[] querySplit = query.split("", 2);
+                String firstWord = querySplit[0];
+
                 try {
                     tableModel = new ResultSetTableModel(dataSource, connection, query);
-
-                    tableModel.setQuery(query);
+                    if (firstWord.equals("select")) {
+                        tableModel.setQuery((query));
+                    } else {
+                        tableModel.setUpdate(query);
+                    }
                 } catch (SQLException | ClassNotFoundException exception) {
                     exception.printStackTrace();
                 }
