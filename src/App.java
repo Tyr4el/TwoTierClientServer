@@ -61,14 +61,6 @@ public class App extends JFrame {
             }
         });
 
-        // Create Listener for Clear Table button
-        btnClearTable.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                scrlExecution.removeAll();
-            }
-        });
-
         // Create Listener for Connect button
         // Load JDBC Driver
         // Establish Connection
@@ -164,21 +156,20 @@ public class App extends JFrame {
             }
         });
 
-        btnClearTable.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (query.equals("")) {
-//                    throw new NullPointerException("Table is empty.  Nothing to clear");
-                    JOptionPane.showMessageDialog(null,"Table is empty", "Error",
-                            WARNING_MESSAGE);
-                    throw new NullPointerException("Table is empty. Nothing to clear");
-                } else {
-                    tableModel.setEmpty();
-                    JOptionPane.showMessageDialog(null, "Table cleared", "Success",
-                            INFORMATION_MESSAGE);
-                }
-            }
-        });
+//        btnClearTable.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (query.equals("")) {
+//                    JOptionPane.showMessageDialog(null,"Table is empty", "Error",
+//                            WARNING_MESSAGE);
+//                    throw new NullPointerException("Table is empty. Nothing to clear");
+//                } else {
+//                    tableModel.setEmpty();
+//                    JOptionPane.showMessageDialog(null, "Table cleared", "Success",
+//                            INFORMATION_MESSAGE);
+//                }
+//            }
+//        });
     }
 
     public static void main(String[] args) {

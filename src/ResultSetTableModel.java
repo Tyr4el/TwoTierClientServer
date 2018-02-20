@@ -109,6 +109,8 @@ public class ResultSetTableModel extends AbstractTableModel {
         }
 
         if (query.equals("")) {
+            JOptionPane.showMessageDialog(null, "Please enter a query", "Error",
+                    JOptionPane.WARNING_MESSAGE);
             throw new IllegalStateException("SQL statement is empty.  Please enter a statement");
         } else {
             resultSet = statement.executeQuery(query);
@@ -133,15 +135,15 @@ public class ResultSetTableModel extends AbstractTableModel {
         fireTableStructureChanged();
     }
 
-    public void setEmpty() throws IllegalStateException {
-        if (!connectedToDatabase) {
-            throw new IllegalStateException("Not connected to database.  Please try again.");
-        }
-
-        numberOfRows = 0;
-        fireTableStructureChanged();
-
-    }
+//    public void setEmpty() throws IllegalStateException {
+//        if (!connectedToDatabase) {
+//            throw new IllegalStateException("Not connected to database.  Please try again.");
+//        }
+//
+//        numberOfRows = 0;
+//        fireTableStructureChanged();
+//
+//    }
 }
 
 
