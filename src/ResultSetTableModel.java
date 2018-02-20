@@ -1,5 +1,6 @@
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.io.FileInputStream;
 import java.sql.*;
@@ -14,13 +15,20 @@ public class ResultSetTableModel extends AbstractTableModel {
     private boolean connectedToDatabase = false;
 
     public ResultSetTableModel(MysqlDataSource dataSource, Connection connection, String query) throws SQLException, ClassNotFoundException {
+        String[] querySplit = query.split(" ", 2);
+        String firstWord = querySplit[0];
 
         try {
             connection = dataSource.getConnection();
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             connectedToDatabase = true;
 
-            setQuery(query);
+            if (dataSource.getUser().equals("root")) {
+                setQuery(query);
+            }
+            if (dataSource.getUser().equals("client") && !firstWord.equals("select")) {
+                JOptionPane.showMessageDialog(null, "Cannot execute update commands.");
+            }
 
         } catch (SQLException sql) {
             sql.printStackTrace();
@@ -123,6 +131,16 @@ public class ResultSetTableModel extends AbstractTableModel {
         res = statement.executeUpdate(query);
 
         fireTableStructureChanged();
+    }
+
+    public void setEmpty() throws IllegalStateException {
+        if (!connectedToDatabase) {
+            throw new IllegalStateException("Not connected to database.  Please try again.");
+        }
+
+        numberOfRows = 0;
+        fireTableStructureChanged();
+
     }
 }
 

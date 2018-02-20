@@ -7,7 +7,6 @@ import javax.xml.transform.Result;
 import java.sql.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
 
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
@@ -40,6 +39,8 @@ public class App extends JFrame {
     private String password = txtPassword.getText();
     // Get database string
     private String database = (String)dropDatabase.getSelectedItem();
+
+    private String query;
 
     private Connection connection;
     private ResultSet rs;
@@ -119,16 +120,18 @@ public class App extends JFrame {
                 }
 
                 // Set the query to the text in the text area
-                String query = txtASQLStatement.getText();
-                String[] querySplit = query.split("", 2);
+                query = txtASQLStatement.getText();
+                String[] querySplit = query.split(" ", 2);
                 String firstWord = querySplit[0];
 
                 try {
                     tableModel = new ResultSetTableModel(dataSource, connection, query);
                     if (firstWord.equals("select")) {
                         tableModel.setQuery((query));
+                        tblOutput.setModel(tableModel);
                     } else {
                         tableModel.setUpdate(query);
+                        tblOutput.setModel(tableModel);
                     }
                 } catch (SQLException | ClassNotFoundException exception) {
                     exception.printStackTrace();
@@ -158,6 +161,22 @@ public class App extends JFrame {
                 txtAConnectionStatus.setText("Not connected");
                 JOptionPane.showMessageDialog(null, "Disconnected from database", "Success",
                         INFORMATION_MESSAGE);
+            }
+        });
+
+        btnClearTable.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (query.equals("")) {
+//                    throw new NullPointerException("Table is empty.  Nothing to clear");
+                    JOptionPane.showMessageDialog(null,"Table is empty", "Error",
+                            WARNING_MESSAGE);
+                    throw new NullPointerException("Table is empty. Nothing to clear");
+                } else {
+                    tableModel.setEmpty();
+                    JOptionPane.showMessageDialog(null, "Table cleared", "Success",
+                            INFORMATION_MESSAGE);
+                }
             }
         });
     }
