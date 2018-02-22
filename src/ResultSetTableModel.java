@@ -14,7 +14,8 @@ public class ResultSetTableModel extends AbstractTableModel {
 
     private boolean connectedToDatabase = false;
 
-    public ResultSetTableModel(MysqlDataSource dataSource, Connection connection, String query) throws SQLException, ClassNotFoundException {
+    public ResultSetTableModel(MysqlDataSource dataSource, Connection connection, String query) throws SQLException,
+            ClassNotFoundException {
         String[] querySplit = query.split(" ", 2);
         String firstWord = querySplit[0];
 
@@ -113,11 +114,18 @@ public class ResultSetTableModel extends AbstractTableModel {
                     JOptionPane.WARNING_MESSAGE);
             throw new IllegalStateException("SQL statement is empty.  Please enter a statement");
         } else {
-            resultSet = statement.executeQuery(query);
-            metaData = resultSet.getMetaData();
+            try {
+                resultSet = statement.executeQuery(query);
+                metaData = resultSet.getMetaData();
 
-            resultSet.last();
-            numberOfRows = resultSet.getRow();
+                resultSet.last();
+                numberOfRows = resultSet.getRow();
+            } catch (SQLException sql) {
+                sql.printStackTrace();
+                JOptionPane.showMessageDialog(null, sql.getMessage(), "SQL Error",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+
         }
 
         fireTableStructureChanged();

@@ -176,7 +176,7 @@ public class App extends JFrame {
         JFrame frame = new JFrame("SQL Client GUI");
         frame.setContentPane(new App().pnlMain);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(980, 600);
+        frame.setSize(1005, 600);
         frame.setResizable(false);
         //frame.pack();
         frame.setVisible(true);
