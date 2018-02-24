@@ -142,16 +142,6 @@ public class ResultSetTableModel extends AbstractTableModel {
 
         fireTableStructureChanged();
     }
-
-//    public void setEmpty() throws IllegalStateException {
-//        if (!connectedToDatabase) {
-//            throw new IllegalStateException("Not connected to database.  Please try again.");
-//        }
-//
-//        numberOfRows = 0;
-//        fireTableStructureChanged();
-//
-//    }
 }
 
 

@@ -32,6 +32,7 @@ public class App extends JFrame {
     private JScrollPane scrlExecution;
     private JTable tblOutput;
     private JButton disconnectButton;
+    private JButton btnClear;
 
     // Get username string
     private String username = txtUsername.getText();
@@ -83,6 +84,7 @@ public class App extends JFrame {
                     // Disable Connect button, drop-downs and text fields upon successful connection
                     // Otherwise, throw an exception
                     connection = dataSource.getConnection();
+                    // Disable buttons once connected
                     btnConnect.setEnabled(false);
                     dropDatabase.setEnabled(false);
                     dropDriver.setEnabled(false);
@@ -113,16 +115,22 @@ public class App extends JFrame {
 
                 // Set the query to the text in the text area
                 query = txtASQLStatement.getText();
+                // Split the query statement to get the first word
                 String[] querySplit = query.split(" ", 2);
                 String firstWord = querySplit[0];
 
                 try {
+                    // Try getting a ResultSetTableModel Object
                     tableModel = new ResultSetTableModel(dataSource, connection, query);
                     if (firstWord.equals("select")) {
+                        // Set the query if the first word in the query is "select"
                         tableModel.setQuery((query));
+                        // Set the model
                         tblOutput.setModel(tableModel);
                     } else {
+                        // Send an Update
                         tableModel.setUpdate(query);
+                        // Set the model
                         tblOutput.setModel(tableModel);
                     }
                 } catch (SQLException | ClassNotFoundException exception) {
@@ -156,20 +164,14 @@ public class App extends JFrame {
             }
         });
 
-//        btnClearTable.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if (query.equals("")) {
-//                    JOptionPane.showMessageDialog(null,"Table is empty", "Error",
-//                            WARNING_MESSAGE);
-//                    throw new NullPointerException("Table is empty. Nothing to clear");
-//                } else {
-//                    tableModel.setEmpty();
-//                    JOptionPane.showMessageDialog(null, "Table cleared", "Success",
-//                            INFORMATION_MESSAGE);
-//                }
-//            }
-//        });
+        btnClear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DefaultTableModel emptyTable = new DefaultTableModel();
+                emptyTable.setNumRows(0);
+                tblOutput.setModel(emptyTable);
+            }
+        });
     }
 
     public static void main(String[] args) {

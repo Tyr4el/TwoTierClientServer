@@ -225,6 +225,15 @@
           <text value="Disconnect"/>
         </properties>
       </component>
+      <component id="c2a1c" class="javax.swing.JButton" binding="btnClear">
+        <constraints>
+          <grid row="16" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms top="0" left="3" bottom="0" right="0"/>
+        </constraints>
+        <properties>
+          <text value="Clear Results"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
