@@ -24,11 +24,12 @@ public class ResultSetTableModel extends AbstractTableModel {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             connectedToDatabase = true;
 
-            if (dataSource.getUser().equals("root")) {
+            if (dataSource.getUser().equals("root") || dataSource.getUser().equals("client") && firstWord.equals("select")) {
                 setQuery(query);
-            }
-            if (dataSource.getUser().equals("client") && !firstWord.equals("select")) {
+            } else if (dataSource.getUser().equals("client") && !firstWord.equals("select")) {
                 JOptionPane.showMessageDialog(null, "Cannot execute update commands.");
+            } else {
+                setUpdate(query);
             }
 
         } catch (SQLException sql) {
